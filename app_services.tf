@@ -2,30 +2,30 @@ module "private_dns_zone_appservice" {
   source  = "Azure/avm-res-network-privatednszone/azurerm"
   version = "0.4.2"
 
-  parent_id   = module.resource_group["southcentralus"].id
+  parent_id   = module.resource_group["southcentralus"].resource_id
   domain_name = "privatelink.azurewebsites.net"
 
   virtual_network_links = {
     vnetlink1 = {
       vnetlinkname = "app-service-dnslink"
-      vnetid       = module.virtual_network["southcentralus"].id
+      vnetid       = module.virtual_network["southcentralus"].resource_id
     }
     vnetlink2 = {
       vnetlinkname = "app-service-dnslink"
-      vnetid       = module.virtual_network["northcentralus"].id
+      vnetid       = module.virtual_network["northcentralus"].resource_id
     }
   }
 }
 
 module "app_service_plan" {
-  source  = "Azure/avm-res-web-serverfarm/azurerm/"
+  source  = "Azure/avm-res-web-serverfarm/azurerm"
   version = "1.0.0"
 
   for_each                        = var.locations
   location                        = each.key
   name                            = each.value.asp_name
   os_type                         = "Linux"
-  resource_group_name             = module.resource_group.name
+  resource_group_name             = module.resource_group[each.key].name
   sku_name                        = "P1v3"
   premium_plan_auto_scale_enabled = true
   zone_balancing_enabled          = each.key == "southcentralus" ? true : false
@@ -39,8 +39,8 @@ module "web_app_service" {
   name                     = each.value.app_name
   kind                     = "webapp"
   location                 = each.key
-  resource_group_name      = module.resource_group.name
-  service_plan_resource_id = module.app_service_plan[each.key].id
+  resource_group_name      = module.resource_group[each.key].name
+  service_plan_resource_id = module.app_service_plan[each.key].resource_id
   os_type                  = "Linux"
   https_only               = true
   site_config = {
@@ -54,7 +54,7 @@ module "web_app_service" {
   managed_identities = {
     system_assigned = true
   }
-  virtual_network_subnet_id = module.virtual_network[each.key].subnets["snet-webapp"].id
+  virtual_network_subnet_id = module.virtual_network[each.key].subnets["snet-webapp"].resource_id
 }
 
 module "api_app_service" {
@@ -65,8 +65,8 @@ module "api_app_service" {
   name                     = each.value.app_name
   kind                     = "webapp"
   location                 = each.key
-  resource_group_name      = module.resource_group.name
-  service_plan_resource_id = module.app_service_plan[each.key].id
+  resource_group_name      = module.resource_group[each.key].name
+  service_plan_resource_id = module.app_service_plan[each.key].resource_id
   os_type                  = "Linux"
   https_only               = true
   site_config = {
@@ -80,12 +80,12 @@ module "api_app_service" {
   managed_identities = {
     system_assigned = true
   }
-  virtual_network_subnet_id = module.virtual_network[each.key].subnets["snet-apiapp"].id
+  virtual_network_subnet_id = module.virtual_network[each.key].subnets["snet-apiapp"].resource_id
 
   private_endpoints = {
     primary = {
-      private_dns_zone_resource_id = module.private_dns_zone_appservice.id
-      subnet_resource_id           = module.virtual_network[each.key].subnets["snet-pe"].id
+      private_dns_zone_resource_id = module.private_dns_zone_appservice.resource_id
+      subnet_resource_id           = module.virtual_network[each.key].subnets["snet-pe"].resource_id
     }
   }
 
