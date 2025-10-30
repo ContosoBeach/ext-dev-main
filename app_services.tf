@@ -92,7 +92,7 @@ module "api_app_service" {
   connection_strings = {
     sqldb_connection = {
       type  = "SQLAzure"
-      value = "Server=tcp:${module.sql-server[each.key].name}.database.windows.net,1433;Initial Catalog=${module.main_database.name};Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;Authentication=\"Active Directory Default\";"
+      value = "Server=tcp:${module.sql-server[each.key].resource_name}.database.windows.net,1433;Initial Catalog=${module.main_database.name};Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;Authentication=\"Active Directory Default\";"
     }
   }
 
