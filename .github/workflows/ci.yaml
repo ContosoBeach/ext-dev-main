@@ -7,21 +7,20 @@ on:
   workflow_dispatch:
     inputs:
       terraform_cli_version:
-        description: 'Terraform CLI Version'
+        description: "Terraform CLI Version"
         required: true
-        default: 'latest'
-        type: string      
+        default: "latest"
+        type: string
 
 jobs:
   validate:
     name: Validate Terraform
-    runs-on:
-      self-hosted
+    runs-on: self-hosted
     steps:
       - name: Validate Terraform
         uses: ContosoBeach/ext-dev-template/.github/actions/validate@main
         with:
-          root_module_folder_relative_path: '.'
+          root_module_folder_relative_path: "."
           terraform_cli_version: ${{ inputs.terraform_cli_version }}
 
   dev_plan:
@@ -32,13 +31,12 @@ jobs:
       id-token: write
       contents: read
     with:
-      root_module_folder_relative_path: '.'
+      root_module_folder_relative_path: "."
       name: dev
       display_name: Development
       runner_name: self-hosted
       environment_name_plan: dev-plan
       environment_name_apply: dev-apply
-      dependent_environment: 
+      dependent_environment:
       backend_azure_storage_account_container_name: dev
       terraform_cli_version: ${{ inputs.terraform_cli_version }}
-
