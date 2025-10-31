@@ -40,7 +40,7 @@ module "keyvault" {
 }
 
 module "mgmtvm" {
-  source  = "Azure/avm-res-compute-virtualmachine/azurerm//examples/linux_default"
+  source  = "Azure/avm-res-compute-virtualmachine/azurerm"
   version = "0.19.3"
 
   location = var.primary_region
