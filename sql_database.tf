@@ -8,17 +8,16 @@ module "private_dns_zone_sql" {
   source  = "Azure/avm-res-network-privatednszone/azurerm"
   version = "0.4.2"
 
-  parent_id   = module.resource_group["southcentralus"].resource_id
+  parent_id   = module.resource_group[var.primary_region].resource_id
   domain_name = "privatelink.database.windows.net"
-
   virtual_network_links = {
     vnetlink1 = {
-      vnetlinkname = "sql-server-dnslink"
-      vnetid       = module.virtual_network["southcentralus"].resource_id
+      vnetlinkname = "sql-dnslink-${var.primary_region}"
+      vnetid       = module.virtual_network[var.primary_region].resource_id
     }
     vnetlink2 = {
-      vnetlinkname = "sql-server-dnslink"
-      vnetid       = module.virtual_network["northcentralus"].resource_id
+      vnetlinkname = "sql-dnslink-${var.secondary_region}"
+      vnetid       = module.virtual_network[var.secondary_region].resource_id
     }
   }
 }
@@ -27,7 +26,7 @@ module "sql-server" {
   source  = "Azure/avm-res-sql-server/azurerm"
   version = "0.1.6"
 
-  for_each                     = var.locations
+  for_each                     = local.locations
   name                         = each.value.sql_server_name
   location                     = each.key
   resource_group_name          = module.resource_group[each.key].name
@@ -51,7 +50,7 @@ module "main_database" {
 
   name = "maindb"
   sql_server = {
-    resource_id = module.sql-server["southcentralus"].resource_id
+    resource_id = module.sql-server[var.primary_region].resource_id
   }
   sku_name           = "S0"
   license_type       = "LicenseIncluded"
@@ -68,13 +67,13 @@ module "main_database" {
 
 resource "azurerm_mssql_failover_group" "db_failover_group" {
   name      = "maindb-failover-group"
-  server_id = module.sql-server["southcentralus"].resource_id
+  server_id = module.sql-server[var.primary_region].resource_id
   databases = [
     module.main_database.resource_id
   ]
 
   partner_server {
-    id = module.sql-server["northcentralus"].resource_id
+    id = module.sql-server[var.secondary_region].resource_id
   }
 
   read_write_endpoint_failover_policy {

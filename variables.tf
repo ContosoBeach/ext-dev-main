@@ -1,28 +1,25 @@
-variable "locations" {
-  description = "The list of Azure locations to deploy resources in."
-  type = map(object({
-    vnet_name       = string,
-    address_space   = string,
-    asp_name        = string,
-    app_name        = string,
-    sql_server_name = string
-  }))
-  default = {
-    "southcentralus" = {
-      vnet_name       = "vnet-demoapp-southcentralus"
-      address_space   = "10.0.0.0/16"
-      asp_name        = "asp-demoapp-southcentralus"
-      app_name        = "demoapp-southcentralus"
-      sql_server_name = "sqlserver-demoapp-southcentralus"
-    },
-    "northcentralus" = {
-      vnet_name       = "vnet-demoapp-northcentralus"
-      address_space   = "10.1.0.0/16"
-      asp_name        = "asp-demoapp-northcentralus"
-      app_name        = "demoapp-northcentralus"
-      sql_server_name = "sqlserver-demoapp-northcentralus"
-    }
-  }
+variable "primary_region" {
+  description = "The primary region for the deployment."
+  type        = string
+  default     = "southcentralus"
+}
+
+variable "secondary_region" {
+  description = "The secondary region for the deployment."
+  type        = string
+  default     = "northcentralus"
+}
+
+variable "primary_address_space" {
+  description = "The address space for the primary region."
+  type        = string
+  default     = "10.0.0.0/16"
+}
+
+variable "secondary_address_space" {
+  description = "The address space for the secondary region."
+  type        = string
+  default     = "10.1.0.0/16"
 }
 
 variable "subnets" {

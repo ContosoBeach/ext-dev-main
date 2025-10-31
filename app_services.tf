@@ -2,17 +2,17 @@ module "private_dns_zone_appservice" {
   source  = "Azure/avm-res-network-privatednszone/azurerm"
   version = "0.4.2"
 
-  parent_id   = module.resource_group["southcentralus"].resource_id
+  parent_id   = module.resource_group[var.primary_region].resource_id
   domain_name = "privatelink.azurewebsites.net"
 
   virtual_network_links = {
     vnetlink1 = {
       vnetlinkname = "app-service-dnslink"
-      vnetid       = module.virtual_network["southcentralus"].resource_id
+      vnetid       = module.virtual_network[var.primary_region].resource_id
     }
     vnetlink2 = {
       vnetlinkname = "app-service-dnslink"
-      vnetid       = module.virtual_network["northcentralus"].resource_id
+      vnetid       = module.virtual_network[var.secondary_region].resource_id
     }
   }
 }
@@ -21,21 +21,21 @@ module "app_service_plan" {
   source  = "Azure/avm-res-web-serverfarm/azurerm"
   version = "1.0.0"
 
-  for_each                        = var.locations
+  for_each                        = local.locations
   location                        = each.key
   name                            = each.value.asp_name
   os_type                         = "Linux"
   resource_group_name             = module.resource_group[each.key].name
   sku_name                        = "P1v3"
   premium_plan_auto_scale_enabled = true
-  zone_balancing_enabled          = each.key == "southcentralus" ? true : false
+  zone_balancing_enabled          = each.key == var.primary_region ? true : false
 }
 
 module "web_app_service" {
   source  = "Azure/avm-res-web-site/azurerm"
   version = "0.19.1"
 
-  for_each                 = var.locations
+  for_each                 = local.locations
   name                     = each.value.app_name
   kind                     = "webapp"
   location                 = each.key
@@ -61,7 +61,7 @@ module "api_app_service" {
   source  = "Azure/avm-res-web-site/azurerm"
   version = "0.19.1"
 
-  for_each                 = var.locations
+  for_each                 = local.locations
   name                     = each.value.app_name
   kind                     = "webapp"
   location                 = each.key
