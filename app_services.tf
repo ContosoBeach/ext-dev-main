@@ -7,11 +7,11 @@ module "private_dns_zone_appservice" {
 
   virtual_network_links = {
     vnetlink1 = {
-      vnetlinkname = "app-service-dnslink"
+      vnetlinkname = "app-service-dnslink-${var.primary_region}"
       vnetid       = module.virtual_network[var.primary_region].resource_id
     }
     vnetlink2 = {
-      vnetlinkname = "app-service-dnslink"
+      vnetlinkname = "app-service-dnslink-${var.secondary_region}"
       vnetid       = module.virtual_network[var.secondary_region].resource_id
     }
   }
@@ -36,7 +36,7 @@ module "web_app_service" {
   version = "0.19.1"
 
   for_each                 = local.locations
-  name                     = each.value.app_name
+  name                     = each.value.webapp_name
   kind                     = "webapp"
   location                 = each.key
   resource_group_name      = module.resource_group[each.key].name
@@ -62,7 +62,7 @@ module "api_app_service" {
   version = "0.19.1"
 
   for_each                 = local.locations
-  name                     = each.value.app_name
+  name                     = each.value.apiapp_name
   kind                     = "webapp"
   location                 = each.key
   resource_group_name      = module.resource_group[each.key].name
@@ -104,7 +104,7 @@ module "api_app_service" {
       active_directory_v2 = {
         aad1 = {
           client_id            = "<client-id>"
-          tenant_auth_endpoint = "https://login.microsoftonline.com/{tenant-guid}/v2.0/"
+          tenant_auth_endpoint = "https://login.microsoftonline.com/${data.azurerm_client_config.current.tenant_id}/v2.0/"
         }
       }
       login = {

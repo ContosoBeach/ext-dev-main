@@ -1,8 +1,8 @@
-resource "random_password" "admin_password" {
-  length           = 16
-  override_special = "!#$%&*()-_=+[]{}<>:?"
-  special          = true
-}
+# resource "random_password" "admin_password" {
+#   length           = 16
+#   override_special = "!#$%&*()-_=+[]{}<>:?"
+#   special          = true
+# }
 
 module "private_dns_zone_sql" {
   source  = "Azure/avm-res-network-privatednszone/azurerm"
@@ -26,14 +26,18 @@ module "sql-server" {
   source  = "Azure/avm-res-sql-server/azurerm"
   version = "0.1.6"
 
-  for_each                     = local.locations
-  name                         = each.value.sql_server_name
-  location                     = each.key
-  resource_group_name          = module.resource_group[each.key].name
-  server_version               = "12.0"
-  administrator_login          = "sqladmin"
-  administrator_login_password = random_password.admin_password.result
-
+  for_each            = local.locations
+  name                = each.value.sql_server_name
+  location            = each.key
+  resource_group_name = module.resource_group[each.key].name
+  server_version      = "12.0"
+  #   administrator_login          = "sqladmin"
+  #   administrator_login_password = random_password.admin_password.result
+  azuread_administrator = {
+    azuread_authentication_only = true
+    login_username              = data.azuread_user.current.user_principal_name
+    object_id                   = data.azuread_user.current.object_id
+  }
 
   private_endpoints = {
     primary = {

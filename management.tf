@@ -22,7 +22,7 @@ module "keyvault" {
   version = "=0.10.2"
 
   location            = var.primary_region
-  name                = "kv-${random_pet.resource_group_name.id}-${var.primary_region}"
+  name                = "kv-mgmt2562-${var.primary_region}"
   resource_group_name = module.resource_group[var.primary_region].name
   tenant_id           = data.azurerm_client_config.current.tenant_id
   network_acls = {
