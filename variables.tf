@@ -41,6 +41,9 @@ variable "subnets" {
     },
     "snet-management" = {
       size = 24
+    },
+    "AzureBastionSubnet" = {
+      size = 24
     }
   }
   description = "The subnets"
