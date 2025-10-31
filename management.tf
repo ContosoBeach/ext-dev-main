@@ -1,5 +1,5 @@
 module "azure_bastion" {
-  source  = "Azure/avm-res-network-bastionhost/azurerm//examples/Basic-sku"
+  source  = "Azure/avm-res-network-bastionhost/azurerm"
   version = "0.8.1"
 
   location            = var.primary_region
