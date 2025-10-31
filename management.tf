@@ -51,7 +51,7 @@ module "mgmtvm" {
       ip_configurations = {
         ip_configuration_1 = {
           name                          = "mgmtvm-nic-ipconfig1"
-          private_ip_subnet_resource_id = module.virtual_network[var.primary_region].subnets["snet-mgmt"].resource_id
+          private_ip_subnet_resource_id = module.virtual_network[var.primary_region].subnets["snet-management"].resource_id
         }
       }
     }
