@@ -35,8 +35,8 @@ module "sql-server" {
   #   administrator_login_password = random_password.admin_password.result
   azuread_administrator = {
     azuread_authentication_only = true
-    login_username              = data.azuread_user.current.user_principal_name
-    object_id                   = data.azuread_user.current.object_id
+    login_username              = "Bill.Smith@contosobeach.com"
+    object_id                   = "3f3b8152-c717-4bd3-b9a1-cbc70603d8e1"
   }
 
   private_endpoints = {
