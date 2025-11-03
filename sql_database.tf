@@ -60,7 +60,7 @@ module "main_database" {
   license_type       = "LicenseIncluded"
   max_size_gb        = 10
   read_scale         = false
-  zone_redundant     = true
+  zone_redundant     = false
   geo_backup_enabled = false
   short_term_retention_policy = {
     retention_days           = 1
