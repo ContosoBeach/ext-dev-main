@@ -28,7 +28,8 @@ module "app_service_plan" {
   resource_group_name             = module.resource_group[each.key].name
   sku_name                        = "P1v3"
   premium_plan_auto_scale_enabled = true
-  zone_balancing_enabled          = each.key == var.primary_region ? true : false
+  #   zone_balancing_enabled          = each.key == var.primary_region ? true : false
+  zone_balancing_enabled = false
 }
 
 module "web_app_service" {
