@@ -1,13 +1,13 @@
 variable "primary_region" {
   description = "The primary region for the deployment."
   type        = string
-  default     = "southcentralus"
+  default     = "northeurope"
 }
 
 variable "secondary_region" {
   description = "The secondary region for the deployment."
   type        = string
-  default     = "northcentralus"
+  default     = "westeurope"
 }
 
 variable "primary_address_space" {

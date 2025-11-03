@@ -28,15 +28,15 @@ module "keyvault" {
   network_acls = {
     default_action = "Allow"
   }
-  #   role_assignments = {
-  #     deployment_user_secrets = {
-  #       role_definition_id_or_name = "Key Vault Secrets Officer"
-  #       principal_id               = data.azurerm_client_config.current.object_id
-  #     }
-  #   }
-  #   wait_for_rbac_before_secret_operations = {
-  #     create = "60s"
-  #   }
+  role_assignments = {
+    deployment_user_secrets = {
+      role_definition_id_or_name = "Key Vault Secrets Officer"
+      principal_id               = data.azurerm_client_config.current.object_id
+    }
+  }
+  wait_for_rbac_before_secret_operations = {
+    create = "60s"
+  }
 }
 
 module "mgmtvm" {
@@ -64,7 +64,7 @@ module "mgmtvm" {
     }
   }
   os_type  = "Linux"
-  sku_size = "Standard_B2as_v2"
+  sku_size = "Standard_B2s_v2"
   source_image_reference = {
     publisher = "Canonical"
     offer     = "ubuntu-24_04-lts"
