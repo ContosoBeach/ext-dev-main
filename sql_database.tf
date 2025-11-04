@@ -67,6 +67,8 @@ module "main_database" {
     backup_interval_in_hours = 24
   }
   long_term_retention_policy = null
+  collation                  = "SQL_Latin1_General_CP1_CI_AS"
+  sample_name                = "AdventureWorksLT"
 }
 
 resource "azurerm_mssql_failover_group" "db_failover_group" {
