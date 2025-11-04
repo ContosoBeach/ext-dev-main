@@ -41,9 +41,9 @@ module "sql-server" {
 
   private_endpoints = {
     primary = {
-      private_dns_zone_resource_id = module.private_dns_zone_sql.resource_id
-      subnet_resource_id           = module.virtual_network[each.key].subnets["snet-pe"].resource_id
-      subresource_name             = "sqlServer"
+      private_dns_zone_resource_ids = [module.private_dns_zone_sql.resource_id]
+      subnet_resource_id            = module.virtual_network[each.key].subnets["snet-pe"].resource_id
+      subresource_name              = "sqlServer"
     }
   }
 }

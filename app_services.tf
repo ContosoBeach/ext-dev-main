@@ -85,8 +85,8 @@ module "api_app_service" {
 
   private_endpoints = {
     primary = {
-      private_dns_zone_resource_id = module.private_dns_zone_appservice.resource_id
-      subnet_resource_id           = module.virtual_network[each.key].subnets["snet-pe"].resource_id
+      private_dns_zone_resource_ids = [module.private_dns_zone_appservice.resource_id]
+      subnet_resource_id            = module.virtual_network[each.key].subnets["snet-pe"].resource_id
     }
   }
 
