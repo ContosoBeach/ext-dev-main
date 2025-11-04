@@ -26,7 +26,7 @@ module "app_service_plan" {
   name                            = each.value.asp_name
   os_type                         = "Linux"
   resource_group_name             = module.resource_group[each.key].name
-  sku_name                        = "P1v3"
+  sku_name                        = "P1v4"
   premium_plan_auto_scale_enabled = true
   #   zone_balancing_enabled          = each.key == var.primary_region ? true : false
   zone_balancing_enabled = false
