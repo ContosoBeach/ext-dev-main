@@ -45,7 +45,7 @@ module "web_app_service" {
   os_type                  = "Linux"
   https_only               = true
   site_config = {
-    linux_fx_version    = "DOTNETCORE|7.0"
+    linux_fx_version    = "DOTNETCORE|9.0"
     minTlsVersion       = "1.2"
     ftpsState           = "FtpsOnly"
     vnetRouteAllEnabled = true
@@ -71,7 +71,7 @@ module "api_app_service" {
   os_type                  = "Linux"
   https_only               = true
   site_config = {
-    linux_fx_version    = "DOTNETCORE|7.0"
+    linux_fx_version    = "DOTNETCORE|9.0"
     minTlsVersion       = "1.2"
     ftpsState           = "FtpsOnly"
     vnetRouteAllEnabled = true
