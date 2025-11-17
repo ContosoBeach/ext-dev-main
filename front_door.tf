@@ -57,7 +57,7 @@ resource "azurerm_cdn_frontdoor_route" "frontdoor_route" {
   name                          = "${var.frontdoor_prefix}-route"
   cdn_frontdoor_endpoint_id     = azurerm_cdn_frontdoor_endpoint.frontdoor_endpoint.id
   cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.frontdoor_origin_group.id
-  cdn_frontdoor_origin_ids      = [azurerm_cdn_frontdoor_origin.frontdoor_origin.id]
+  cdn_frontdoor_origin_ids      = [for origin in azurerm_cdn_frontdoor_origin.frontdoor_origin : origin.id]
   enabled                       = true
 
   forwarding_protocol    = "HttpsOnly"
