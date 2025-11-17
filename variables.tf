@@ -49,4 +49,8 @@ variable "subnets" {
   description = "The subnets"
 }
 
-
+variable "frontdoor_prefix" {
+  description = "Prefix for Front Door resources"
+  type        = string
+  default     = "fdemo"
+}
