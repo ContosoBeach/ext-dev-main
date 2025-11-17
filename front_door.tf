@@ -36,7 +36,7 @@ resource "azurerm_cdn_frontdoor_endpoint" "frontdoor_endpoint" {
 
 resource "azurerm_cdn_frontdoor_origin" "frontdoor_origin" {
   for_each                      = local.locations
-  name                          = "${var.frontdoor_prefix}-origin-each.key"
+  name                          = "${var.frontdoor_prefix}-origin-${each.key}"
   cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.frontdoor_origin_group.id
   enabled                       = true
 
