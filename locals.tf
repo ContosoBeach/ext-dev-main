@@ -35,4 +35,15 @@ locals {
       sql_server_name = "sqlserver-demoapp-${var.secondary_region}"
     }
   }
+
+  auth_client_ids = {
+    (var.primary_region) = {
+      web_app_client_id = var.web_app_primary_auth_client_id
+      api_app_client_id = var.api_app_primary_auth_client_id
+    },
+    (var.secondary_region) = {
+      web_app_client_id = var.web_app_secondary_auth_client_id
+      api_app_client_id = var.api_app_secondary_auth_client_id
+    }
+  }
 }
