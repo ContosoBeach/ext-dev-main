@@ -43,7 +43,7 @@ resource "azurerm_cdn_frontdoor_origin" "frontdoor_origin" {
   certificate_name_check_enabled = true # Required for Private Link
   host_name                      = module.web_app_service[each.key].resource_uri
   origin_host_header             = module.web_app_service[each.key].resource_uri
-  priority                       = 1
+  priority                       = each.key == var.primary_region ? 1 : 2
 
   # private_link {
   #   request_message        = "Request access for CDN Frontdoor Private Link Origin Linux Web App Example"
@@ -51,4 +51,17 @@ resource "azurerm_cdn_frontdoor_origin" "frontdoor_origin" {
   #   location               = each.key
   #   private_link_target_id = module.web_app_service[each.key].resource_id
   # }
+}
+
+resource "azurerm_cdn_frontdoor_route" "frontdoor_route" {
+  name                          = "${var.frontdoor_prefix}-route"
+  cdn_frontdoor_endpoint_id     = azurerm_cdn_frontdoor_endpoint.frontdoor_endpoint.id
+  cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.frontdoor_origin_group.id
+  cdn_frontdoor_origin_ids      = [for origin in azurerm_cdn_frontdoor_origin.frontdoor_origin : origin.id]
+  enabled                       = true
+
+  forwarding_protocol    = "HttpsOnly"
+  https_redirect_enabled = true
+  patterns_to_match      = ["/*"]
+  supported_protocols    = ["Http", "Https"]
 }
