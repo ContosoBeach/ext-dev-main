@@ -54,3 +54,26 @@ variable "frontdoor_prefix" {
   type        = string
   default     = "fdemo"
 }
+
+variable "api_app_primary_auth_client_id" {
+  description = "The client ID for the API App registration in the primary region."
+  type        = string
+  default     = "a332f2fa-a14f-4d35-8da1-6b7dac896363"
+}
+
+variable "web_app_primary_auth_client_id" {
+  description = "The client ID for the Web App registration in the primary region."
+  type        = string
+  default     = "81768a9d-76c9-4376-bb62-d4ea5e31ca0b"
+}
+
+variable "api_app_secondary_auth_client_id" {
+  description = "The client ID for the API App registration in the secondary region."
+  type        = string
+  default     = "a89ebf11-5c07-489b-a5a2-2685dde65200"
+}
+variable "web_app_secondary_auth_client_id" {
+  description = "The client ID for the Web App registration in the secondary region."
+  type        = string
+  default     = "821fce64-0526-44df-8e52-bc1048cc2090"
+}

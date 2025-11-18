@@ -56,6 +56,24 @@ module "web_app_service" {
     system_assigned = true
   }
   virtual_network_subnet_id = module.virtual_network[each.key].subnets["snet-webapp"].resource_id
+
+  auth_settings_v2 = {
+    setting1 = {
+      auth_enabled     = true
+      default_provider = "AzureActiveDirectory"
+      active_directory_v2 = {
+        aad1 = {
+          client_id            = local.auth_client_ids[each.key].web_app_client_id
+          tenant_auth_endpoint = "https://login.microsoftonline.com/${data.azurerm_client_config.current.tenant_id}/v2.0/"
+        }
+      }
+      login = {
+        login1 = {
+          token_store_enabled = true
+        }
+      }
+    }
+  }
 }
 
 module "api_app_service" {
@@ -104,7 +122,7 @@ module "api_app_service" {
       default_provider = "AzureActiveDirectory"
       active_directory_v2 = {
         aad1 = {
-          client_id            = "<client-id>"
+          client_id            = local.auth_client_ids[each.key].api_app_client_id
           tenant_auth_endpoint = "https://login.microsoftonline.com/${data.azurerm_client_config.current.tenant_id}/v2.0/"
         }
       }
