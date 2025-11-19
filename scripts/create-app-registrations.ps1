@@ -1,6 +1,6 @@
 param(
     [string]$apiAppNamePrefix = "apiapp",
-    [string]$webAppNamePrefix = "demoapp",
+    [string]$webAppNamePrefix = "webapp",
     [string]$primaryRegion = "uksouth",
     [string]$secondaryRegion = "ukwest",
     [string]$webAppUser = "judechen@microsoft.com"
@@ -134,7 +134,7 @@ Write-Host -ForegroundColor Yellow "`nPlease run the following commands to set t
 foreach ($appRegistrationName in $appRegistrationNames) {
     $appRegistrations = az ad app list --display-name $appRegistrationName.Name | ConvertFrom-Json
     $appRegistration = $appRegistrations[0]
-    Write-Host -ForegroundColor Yellow "`$env:TF_VAR_$($appRegistrationName.Key)_client_id = `"$($appRegistration.appId)`""
+    Write-Host -ForegroundColor Yellow "`$env:TF_VAR_$($appRegistrationName.Key)_auth_client_id = `"$($appRegistration.appId)`""
 }
 
 exit 0

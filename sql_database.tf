@@ -22,6 +22,11 @@ module "private_dns_zone_sql" {
   }
 }
 
+# Retrieve Azure AD user details using the Object ID
+data "azuread_user" "current_user" {
+  object_id = data.azurerm_client_config.current.object_id
+}
+
 module "sql-server" {
   source  = "Azure/avm-res-sql-server/azurerm"
   version = "0.1.6"
@@ -35,8 +40,8 @@ module "sql-server" {
   #   administrator_login_password = random_password.admin_password.result
   azuread_administrator = {
     azuread_authentication_only = true
-    login_username              = "Bill.Smith@contosobeach.com"
-    object_id                   = "3f3b8152-c717-4bd3-b9a1-cbc70603d8e1"
+    login_username              = data.azuread_user.current_user.user_principal_name
+    object_id                   = data.azurerm_client_config.current.object_id
   }
 
   private_endpoints = {

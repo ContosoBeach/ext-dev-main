@@ -1,6 +1,6 @@
 param(
     [string]$apiAppNamePrefix = "apiapp",
-    [string]$webAppNamePrefix = "demoapp",
+    [string]$webAppNamePrefix = "webapp",
     [string]$primaryRegion = "uksouth",
     [string]$secondaryRegion = "ukwest",
     [string]$appRoleName = "Api.Read.Write"
