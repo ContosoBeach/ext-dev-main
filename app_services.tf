@@ -45,11 +45,11 @@ module "web_app_service" {
   os_type                  = "Linux"
   https_only               = true
   site_config = {
-    linux_fx_version    = "DOTNETCORE|9.0"
-    minTlsVersion       = "1.2"
-    ftpsState           = "FtpsOnly"
-    vnetRouteAllEnabled = true
-    alwaysOn            = true
+    linux_fx_version       = "DOTNETCORE|9.0"
+    minimum_tls_version    = "1.2"
+    ftps_state             = "FtpsOnly"
+    vnet_route_all_enabled = true
+    always_on              = true
   }
 
   managed_identities = {
@@ -93,11 +93,11 @@ module "api_app_service" {
   os_type                  = "Linux"
   https_only               = true
   site_config = {
-    linux_fx_version    = "DOTNETCORE|9.0"
-    minTlsVersion       = "1.2"
-    ftpsState           = "FtpsOnly"
-    vnetRouteAllEnabled = true
-    alwaysOn            = true
+    linux_fx_version       = "DOTNETCORE|9.0"
+    minimum_tls_version    = "1.2"
+    ftps_state             = "FtpsOnly"
+    vnet_route_all_enabled = true
+    always_on              = true
   }
 
   managed_identities = {
@@ -140,36 +140,3 @@ module "api_app_service" {
     }
   }
 }
-
-# resource symbolicname 'Microsoft.Web/sites/config@2022-03-01' = if(useAuth) {
-#   name: 'authsettingsV2'
-#   parent: webApp
-#   properties: {
-#     identityProviders: {
-#       azureActiveDirectory: {
-#         enabled: true
-#         registration: {
-#           clientId: authClientId
-#           clientSecretSettingName: clientSecretKey
-#           openIdIssuer: 'https://sts.windows.net/${tenant().tenantId}/v2.0'
-#         }
-#         validation: {
-#           allowedAudiences: [
-#             'api://${authClientId}'
-#           ]
-#         }
-#       }
-#     }
-#     globalValidation: {
-#       redirectToProvider: 'AzureActiveDirectory'
-#       unauthenticatedClientAction: isApi ? 'Return401' : 'RedirectToLoginPage'
-
-#     } 
-#     login: {
-#       tokenStore: {
-#         enabled: true
-#       }
-#     }
-#   }
-# }
-
