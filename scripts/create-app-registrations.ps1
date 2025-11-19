@@ -6,7 +6,7 @@ param(
     [string]$webAppUser = "judechen@microsoft.com"
 )
 
-$ErrorActionPreference = 'SilentlyContinue'
+# $ErrorActionPreference = 'SilentlyContinue'
 
 $appRegistrationNames = @(
     @{
@@ -80,7 +80,7 @@ foreach ($appRegistrationName in $appRegistrationNames) {
 
         # Add the app role to the app registration for the API app
         Write-Output "Adding app roles to $($appRegistrationName.Name)"
-        if ($appRegistrationName.Name -eq $apiAppAuthRegistrationName) {
+        if ($appRegistrationName.Name -like "$apiAppNamePrefix*") {
             Write-Host "Updating app registration $($appRegistrationName.Name) with app roles"
             $appRoles = @(
                 @{
@@ -98,7 +98,7 @@ foreach ($appRegistrationName in $appRegistrationNames) {
 
         # Add users to the UI App registration
         Write-Host "Adding users to $($appRegistrationName.Name)"
-        if ($appRegistrationName.Name -eq $webAppAuthRegistrationName) {
+        if ($appRegistrationName.Name -like "$webAppNamePrefix*") {
             $ErrorActionPreference = 'SilentlyContinue'
 
             $user = az ad user list --filter "mail eq '$webAppUser'" 2>&1 | ConvertFrom-Json
