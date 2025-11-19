@@ -46,10 +46,7 @@ module "web_app_service" {
   https_only               = true
   site_config = {
     linux_fx_version       = "DOTNETCORE|9.0"
-    minimum_tls_version    = "1.2"
-    ftps_state             = "FtpsOnly"
     vnet_route_all_enabled = true
-    always_on              = true
   }
 
   managed_identities = {
@@ -94,10 +91,7 @@ module "api_app_service" {
   https_only               = true
   site_config = {
     linux_fx_version       = "DOTNETCORE|9.0"
-    minimum_tls_version    = "1.2"
-    ftps_state             = "FtpsOnly"
     vnet_route_all_enabled = true
-    always_on              = true
   }
 
   managed_identities = {
