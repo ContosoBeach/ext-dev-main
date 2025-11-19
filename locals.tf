@@ -22,7 +22,7 @@ locals {
       vnet_name       = "vnet-demoapp-${var.primary_region}"
       address_space   = var.primary_address_space
       asp_name        = "asp-demoapp-${var.primary_region}"
-      webapp_name     = "demoapp-${var.primary_region}"
+      webapp_name     = "webapp-${var.primary_region}"
       apiapp_name     = "apiapp-${var.primary_region}"
       sql_server_name = "sqlserver-demoapp-${var.primary_region}"
     },
@@ -30,7 +30,7 @@ locals {
       vnet_name       = "vnet-demoapp-${var.secondary_region}"
       address_space   = var.secondary_address_space
       asp_name        = "asp-demoapp-${var.secondary_region}"
-      webapp_name     = "demoapp-${var.secondary_region}"
+      webapp_name     = "webapp-${var.secondary_region}"
       apiapp_name     = "apiapp-${var.secondary_region}"
       sql_server_name = "sqlserver-demoapp-${var.secondary_region}"
     }
