@@ -10,22 +10,22 @@ param(
 
 $appRegistrationNames = @(
     @{
-        Key         = "web_app_primary"
+        Key         = "api_app_primary"
         Name        = "$apiAppNamePrefix-$primaryRegion-auth"
         RedirectUri = "https://$apiAppNamePrefix-$primaryRegion.azurewebsites.net/.auth/login/aad/callback"
     },
     @{
-        Key         = "api_app_primary"
+        Key         = "web_app_primary"
         Name        = "$webAppNamePrefix-$primaryRegion-auth"
         RedirectUri = "https://$webAppNamePrefix-$primaryRegion.azurewebsites.net/.auth/login/aad/callback"
     },
     @{
-        Key         = "web_app_secondary"
+        Key         = "api_app_secondary"
         Name        = "$apiAppNamePrefix-$secondaryRegion-auth"
         RedirectUri = "https://$apiAppNamePrefix-$secondaryRegion.azurewebsites.net/.auth/login/aad/callback"
     },
     @{
-        Key         = "api_app_secondary"
+        Key         = "web_app_secondary"
         Name        = "$webAppNamePrefix-$secondaryRegion-auth"
         RedirectUri = "https://$webAppNamePrefix-$secondaryRegion.azurewebsites.net/.auth/login/aad/callback"
     }
