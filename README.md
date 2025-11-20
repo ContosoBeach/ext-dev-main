@@ -58,7 +58,7 @@ terraform apply "tfplan.out"
 
 7. Go to the database in the primary region, open up the query editor. (If you see an error showing the SQL server is denying public network access, you may want to enable it temporarily in the networking setting of the SQL server instance.) In the query editor, load the `publish/artifacts/migrations.sql` script and execute it to create the test tables and records in the database.
 
-8. Open a new query tab and run the below query again. You also need to run this query in the database in the secondary region, make sure to change the "apiapp-uksouth" to the API app name (e.g. "apiapp-ukwest") in the secondary region accordingly.
+8. Open a new query tab and run the below query again. Change the API app instance names accordingly.
 
 ```sql
 IF NOT EXISTS (SELECT name FROM [sys].[database_principals] WHERE name = N'apiapp-uksouth')
@@ -70,7 +70,17 @@ IF NOT EXISTS (SELECT name FROM [sys].[database_principals] WHERE name = N'apiap
     END
 ```
 
-9. Deploy the app zip packages in the `publish/artifacts` folder to the corresponding app services.
+```sql
+IF NOT EXISTS (SELECT name FROM [sys].[database_principals] WHERE name = N'apiapp-ukwest')
+    BEGIN
+        CREATE USER [apiapp-ukwest] FROM EXTERNAL PROVIDER;
+        ALTER ROLE db_datareader ADD MEMBER [apiapp-ukwest];
+        ALTER ROLE db_datawriter ADD MEMBER [apiapp-ukwest];
+        ALTER ROLE db_ddladmin ADD MEMBER [apiapp-ukwest];
+    END
+```
+
+9. Deploy the app zip packages in the `publish/artifacts` folder to the corresponding app services. There is a known bug for the Azure App Service AVM module v0.19.1, the app stack configuration settings (.NET 9.0) are not being set properly, you may need to fix this manually in the app service configuration for both web app and API app.
 
 ```
 Sample.Api.zip --> API app in both regions.
